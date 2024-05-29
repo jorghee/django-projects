@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Agregar notas de estudiante</title>
+</head>
+<body>
+  <h1>Agregar nuevas notas de estudiante</h1>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Guardar</button>
+  </form>
+  <a href="{% url 'home' %}">Regresar</a>
+</body>
+</html>
