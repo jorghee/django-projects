@@ -1,2 +1,4 @@
 program/
 *.pyc
+*.sqlite3
+university/grades/migrations/0001_initial.py
