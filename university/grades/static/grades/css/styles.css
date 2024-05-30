@@ -98,7 +98,7 @@ button[type="submit"]:hover {
    background-color: var(--dark-color);
 }
 
-.nav-link {
+.nav-link{
    display: inline-block;
    margin-top: 1rem;
    color: var(--primary-color);
