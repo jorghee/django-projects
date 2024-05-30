@@ -34,7 +34,7 @@
 \newcommand{\semester}{2024 - A}
 \newcommand{\course}{img/web_programming.png}
 \newcommand{\topic}{img/django.png}
-\newcommand{\professor}{Quispe Cruz, Marcela}
+\newcommand{\professor}{Corrales Delgado, Carlo Jose Luis}
 \newcommand{\students}{Mamani Huarsaya, Jorge Luis\\Velarde Saldaña Jhossep Fabritzio} 
 \newcommand{\github}{https://github.com/jorghee/django-projects}
 \newcommand{\mydate}{29 de mayo, 2024}
@@ -67,5 +67,145 @@
   \href{\github}{\github} \vfill
 	{\large \mydate \par}
 \end{titlepage}
+
+\section{Modelos de Datos}
+Los modelos de datos son la columna vertebral de cualquier aplicación Django, ya que definen la estructura y la relación entre los datos. En nuestro sistema, hemos definido tres modelos principales:
+
+\begin{itemize}
+  \item \textbf{Student:} Este modelo representa la entidad de los estudiantes. Cada instancia de este modelo contiene información sobre un estudiante específico, incluyendo su nombre, apellido y correo electrónico. Al definir estos campos como \mpy{CharField} y \mpy{EmailField}, podemos aplicar restricciones como la longitud máxima y el formato de correo electrónico válido.
+
+\begin{minted}[bgcolor=background]{python}
+class Student(models.Model):
+  first_name = models.CharField(max_length=50)
+  last_name = models.CharField(max_length=50)
+  email = models.EmailField(unique=True)
+\end{minted}
+
+  \item \textbf{Course:} Este modelo representa los cursos ofrecidos por la universidad. Cada curso tiene un nombre descriptivo y un código identificador único. La inclusión de un campo code único garantiza la integridad de los datos y facilita la búsqueda y gestión de cursos en la base de datos.
+
+\begin{minted}[bgcolor=background]{python}
+class Course(models.Model):
+  name = models.CharField(max_length=100)
+  code = models.CharField(max_length=10, unique=True)
+
+  def __str__(self):
+    return self.name
+\end{minted}
+
+  \item \textbf{StudentGrade:} Este modelo establece la relación entre estudiantes y cursos, almacenando las calificaciones de los estudiantes en cada curso. Utiliza claves externas \mpy{ForeignKey} para establecer relaciones con los modelos de Estudiante y Curso. Además, utiliza un campo grade como DecimalField para almacenar la calificación con precisión.
+
+\begin{minted}[bgcolor=background]{python}
+class StudentGrade(models.Model):
+  student = models.ForeignKey(Student, on_delete=models.CASCADE)
+  course = models.ForeignKey(Course, on_delete=models.CASCADE)
+  grade = models.DecimalField(max_digits=5, decimal_places=2)
+
+  def __str__(self):
+    return f"{self.student} - {self.course}: {self.grade}"
+\end{minted}
+
+\end{itemize}
+
+\section{Formularios}
+Facilitan la entrada de datos al sistema. En nuestro caso, hemos definido formularios correspondientes a cada modelo para permitir la creación de nuevos registros:
+
+\begin{itemize}
+  \item \textbf{StudentForm:} Este formulario permite la creación de nuevos estudiantes. Está vinculado al modelo \mpy{Student} y proporciona campos para ingresar el nombre, apellido y correo electrónico del estudiante.
+
+\begin{minted}[bgcolor=background]{python}
+class StudentForm(forms.ModelForm):
+  class Meta:
+    model = Student
+    fields = ['first_name', 'last_name', 'email']
+\end{minted}
+
+  \item \textbf{CourseForm} Similar al formulario de estudiantes, este formulario facilita la creación de nuevos cursos utilizando el modelo \mpy{Course}. Los campos incluyen el nombre del curso y su código identificador único.
+
+\begin{minted}[bgcolor=background]{python}
+class CourseForm(forms.ModelForm):
+  class Meta:
+    model = Course
+    fields = ['name', 'code']
+\end{minted}
+
+  \item \textbf{StudentGradeForm} Este formulario permite ingresar las calificaciones de los estudiantes por curso, utilizando el modelo \mpy{StudentGrade}. Proporciona una lista desplegable de estudiantes y cursos disponibles, junto con un campo para ingresar la calificación.
+
+\begin{minted}[bgcolor=background]{python}
+class StudentGradeForm(forms.ModelForm):
+  class Meta:
+    model = StudentGrade
+    fields = ['student', 'course', 'grade']
+\end{minted}
+\end{itemize}
+
+\section{Vistas}
+Las vistas en Django controlan la lógica de negocio de la aplicación y determinan qué datos se presentan al usuario y cómo interactúa el usuario con ellos. En nuestro sistema, hemos definido las siguientes vistas:
+
+\begin{itemize}
+  \item \textbf{home:} Esta vista renderiza la página de inicio del sistema, que proporciona enlaces para agregar estudiantes, cursos y notas.
+
+\begin{minted}[bgcolor=background]{python}
+from django.shortcuts import render
+from .models import Student, Course, StudentGrade
+from .forms import StudentForm, CourseForm, StudentGradeForm
+
+def home(request):
+  return render(request, 'grades/home.html')
+\end{minted}
+
+  \item \textbf{create\_student:} Procesa la creación de nuevos estudiantes. Si se recibe un formulario válido, se guarda el nuevo estudiante en la base de datos.
+
+\begin{minted}[bgcolor=background]{python}
+def create_student(request):
+  if request.method == 'POST':
+    form = StudentForm(request.POST)
+    if form.is_valid():
+      form.save()
+      return redirect('home')
+  else:
+    form = StudentForm()
+  return render(request, 'grades/create_student.html', {'form': form})
+\end{minted}
+
+
+  \item \textbf{create\_course:} Maneja la creación de nuevos cursos. Similar a \textbf{create\_student}, guarda el nuevo curso en la base de datos si el formulario es válido.
+
+\begin{minted}[bgcolor=background]{python}
+def create_course(request):
+  if request.method == 'POST':
+    form = CourseForm(request.POST)
+    if form.is_valid():
+      form.save()
+      return redirect('home')
+  else:
+    form = CourseForm()
+  return render(request, 'grades/create_course.html', {'form': form})
+\end{minted}
+  
+  \item \textbf{create\_student\_grade:} Esta vista gestiona la creación de nuevas notas de estudiantes por curso. Al igual que las vistas anteriores, guarda la nueva nota en la base de datos si el formulario es válido.
+
+\begin{minted}[bgcolor=background]{python}
+def create_student_grade(request):
+  if request.method == 'POST':
+    form = StudentGradeForm(request.POST)
+    if form.is_valid():
+      form.save()
+      return redirect('home')
+  else:
+    form = StudentGradeForm()
+  return render(request, 'grades/create_student_grade.html', {'form': form})
+\end{minted}
+
+\end{itemize}
+
+\section{Plantillas HTML}
+Las plantillas HTML determinan cómo se presenta la información al usuario en un navegador web. Hemos creado plantillas para representar las diferentes páginas del sistema:
+
+\begin{itemize}
+  \item \textbf{home\_html:} La página de inicio muestra enlaces para agregar estudiantes, cursos y notas. Proporciona una interfaz fácil de usar para navegar por el sistema.
+
+  \item \textbf{create\_student.html, create\_course.html, create\_student\_grade.html:} Estas plantillas representan los formularios de creación de estudiantes, cursos y notas respectivamente. Cada una contiene campos de formulario apropiados y un botón de envío para enviar los datos al servidor.
+
+\end{itemize}
 
 \end{document}
