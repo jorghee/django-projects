@@ -196,6 +196,55 @@ def create_student_grade(request):
   return render(request, 'grades/create_student_grade.html', {'form': form})
 \end{minted}
 
+  \item \textbf{list\_students\_grades:} Se encarga de la generación de la lista de todos los estudiantes con sus respectivos cursos y su nota en dicho curso.
+
+\begin{minted}[bgcolor=background]{python}
+def list_student_grades(request):
+  grades = StudentGrade.objects.select_related('student', 'course').all()
+  return render(request, 'grades/list_student_grades.html', {'grades': grades})
+\end{minted}
+
+\end{itemize}
+
+\section{Configuración de URLs}
+Para que nuestro sistema funcione correctamente, es necesario configurar las rutas (URLs) que manejan las solicitudes de los usuarios. Hemos realizado las siguientes modificaciones en los archivos \py{urls.py} tanto del proyecto principal como de la aplicación \mpy{grades}:
+
+\subsection{URLs del Proyecto Principal}
+
+\begin{minted}[bgcolor=background]{python}
+from django.contrib import admin
+from django.urls import path, include
+
+urlpatterns = [
+  path('admin/', admin.site.urls),
+  path('', include('grades.urls')),
+]
+\end{minted}
+
+En este archivo, usamos \mpy{include('grades.urls')} para redirigir cualquier solicitud que no sea para la administración al archivo \mpy{urls.py} de la aplicación \mpy{grades}.
+
+\subsection{URLs de la Aplicación}
+\begin{minted}[bgcolor=background]{python}
+from django.urls import path
+from .views import home, create_student, create_course, create_student_grade, list_student_grades
+
+urlpatterns = [
+  path('', home, name='home'),
+  path('create-student/', create_student, name='create_student'),
+  path('create-course/', create_course, name='create_course'),
+  path('create-student-grade/', create_student_grade, name='create_student_grade'),
+  path('list_student_grades/', list_student_grades, name='list_student_grades'),
+]
+\end{minted}
+
+En este archivo, definimos las siguientes rutas.
+
+\begin{itemize}
+  \item \mpy{path('', home, name='home')}: Ruta para la vista de inicio.
+  \item \mpy{path('create-student/', create_student, name='create_student')}: Ruta para la vista de creación de estudiantes.
+  \item \mpy{path('create-course/', create_course, name='create_course')}: Ruta para la vista de creación de cursos.
+  \item \mpy{path('create-student-grade/', create_student_grade, name='create_student_grade')}: Ruta para la vista de creación de notas de estudiantes.
+  \item \mpy{path('list_student_grades/', list_student_grades, name='list_student_grades')}: Ruta para la creación de la lista con las notas de los estudiantes de cada curso.
 \end{itemize}
 
 \section{Plantillas HTML}
@@ -205,7 +254,6 @@ Las plantillas HTML determinan cómo se presenta la información al usuario en u
   \item \textbf{home\_html:} La página de inicio muestra enlaces para agregar estudiantes, cursos y notas. Proporciona una interfaz fácil de usar para navegar por el sistema.
 
   \item \textbf{create\_student.html, create\_course.html, create\_student\_grade.html:} Estas plantillas representan los formularios de creación de estudiantes, cursos y notas respectivamente. Cada una contiene campos de formulario apropiados y un botón de envío para enviar los datos al servidor.
-
 \end{itemize}
 
 \end{document}
