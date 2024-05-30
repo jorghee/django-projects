@@ -1,4 +1,4 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render, redirect
 from .models import Student, Course, StudentGrade
 from .forms import StudentForm, CourseForm, StudentGradeForm
 
@@ -34,3 +34,7 @@ def create_student_grade(request):
   else:
     form = StudentGradeForm()
   return render(request, 'grades/create_student_grade.html', {'form': form})
+
+def list_student_grades(request):
+    grades = StudentGrade.objects.select_related('student', 'course').all()
+    return render(request, 'grades/list_student_grades.html', {'grades': grades})
