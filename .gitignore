@@ -2,3 +2,9 @@ program/
 *.pyc
 *.sqlite3
 university/grades/migrations/0001_initial.py
+*.aux
+*.log
+*.out
+*.toc
+*.pyg
+_minted-django_report/
