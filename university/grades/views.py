@@ -36,5 +36,5 @@ def create_student_grade(request):
   return render(request, 'grades/create_student_grade.html', {'form': form})
 
 def list_student_grades(request):
-    grades = StudentGrade.objects.select_related('student', 'course').all()
-    return render(request, 'grades/list_student_grades.html', {'grades': grades})
+  grades = StudentGrade.objects.select_related('student', 'course').all()
+  return render(request, 'grades/list_student_grades.html', {'grades': grades})
