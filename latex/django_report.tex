@@ -1,0 +1,71 @@
+\documentclass[10pt, a4paper]{article}
+
+% Import the packages
+\usepackage[utf8]{inputenc}
+\usepackage[english, spanish]{babel}
+\usepackage[left=25mm, right=25mm, top=35mm, bottom=30mm, headheight=35mm]{geometry}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage{setspace}
+\usepackage{indentfirst}
+
+% Syntax customization with minted package
+\usepackage{minted}
+\usemintedstyle{nord-darker}
+\usemintedstyle[zsh]{gruvbox-light}
+\setminted{
+  breaklines,
+  linenos,
+  frame=lines,
+  fontsize=\normalsize
+}
+\newcommand{\mpy}[1]{\mintinline[style=gruvbox-light]{python}{#1}}
+
+% Define background color
+\definecolor{background}{HTML}{2E3440}
+
+% Variables
+\newcommand{\university}{Universidad Nacional de San Agustín de Arequipa}
+\newcommand{\faculty}{Facultad de Ingeniería de Producción y Servicios}
+\newcommand{\program}{Escuela Profesional de Ingeniería de Sistemas}
+\newcommand{\semester}{2024 - A}
+\newcommand{\course}{img/web_programming.png}
+\newcommand{\topic}{img/django.png}
+\newcommand{\professor}{Quispe Cruz, Marcela}
+\newcommand{\students}{Mamani Huarsaya, Jorge Luis\\Velarde Saldaña Jhossep Fabritzio} 
+\newcommand{\github}{https://github.com/jorghee/django-projects}
+\newcommand{\mydate}{29 de mayo, 2024}
+
+% Just parts and chapters numbered
+\setcounter{secnumdepth}{0}
+
+% Head and foot customization
+\pagestyle{fancy}
+\lhead{\raisebox{-0.2\height}{\includegraphics[width=4cm]{img/logo_unsa.png}}}
+\chead{\fontsize{8}{8}\selectfont \university \\ \faculty \\ \textbf{\program}}
+\rhead{\raisebox{-0.2\height}{\includegraphics[width=3.5cm]{img/logo_episunsa.png}}}
+\lfoot{Semestre \semester}
+\cfoot{}
+\rfoot{Pág. \thepage}
+
+\begin{document}
+
+\begin{titlepage}
+	\centering
+	\includegraphics[width=15cm]{\course} \par
+  \vfill \vfill
+	\includegraphics[width=16cm]{\topic}\par
+  \vfill \vfill
+  {\textbf{Profesor(a):} \par}
+	\professor \vfill
+  {\textbf{Estudiantes:} \par}
+	\students \vfill
+  {\textbf{Repositorio GitHub:} \par}
+  \href{\github}{\github} \vfill
+	{\large \mydate \par}
+\end{titlepage}
+
+\end{document}
