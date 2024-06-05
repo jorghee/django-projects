@@ -76,8 +76,11 @@ WSGI_APPLICATION = 'turismo_Peru.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'destinos_turisticos',
+        'USER': 'postgres',
+        'PASSWORD': 'jorghee',
+        'HOST': 'localhost'
     }
 }
 
