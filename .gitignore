@@ -8,3 +8,5 @@ university/grades/migrations/0001_initial.py
 *.toc
 *.pyg
 _minted-django_report/
+_minted-templates_django_report/
+
