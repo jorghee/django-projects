@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
   <head>
-    <title>{% if pdf_title %}{{ pdf_title }}{% else %}PDF{% endif %}</title>
+    <title>{% if pdf_title %}{{ pdf_title }}{% else %}Presentation{% endif %}</title>
     <style type="text/css">
       body {
       font-weight: 200;
@@ -39,13 +39,13 @@
   <body>
     <div class='wrapper'>
       <div class='header'>
-          <p class='title'>Invoice #{{ invoice_number}}</p>
+          <p class='title'>Factura #{{ invoice_number}}</p>
       </div>
     <div>
     <div class='details'>
-      Bill to: {{ customer_name }}<br/>
-      Amount: {{ amount }} <br/>
-      Date: {{ date }}
+      Factura a: {{ customer_name }}<br/>
+      Cantidad: s/. {{ amount }} <br/>
+      Fecha: {{ today }}
       <hr class='hrItem' />
     </div>
   </div>
