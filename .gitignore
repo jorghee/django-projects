@@ -9,4 +9,5 @@ university/grades/migrations/0001_initial.py
 *.pyg
 _minted-django_report/
 _minted-templates_django_report/
+_minted-relationships_pdfs_emails_django_report/
 .env
