@@ -3,10 +3,10 @@ Django sigue el Model View Template (MVT)
 
 <img src="latex/img/model_view_template.png" alt="Model View Template">
 
-# :wrench: <samp>Configuraciones previas</samp>
-Para probar la funcionalidad de los programas, debe de realizar los siguientes pasos que están como recordatorio.
+# :wrench: <samp>Previous configurations</samp>
+Para probar la funcionalidad de los programas, debe realizar los siguientes pasos que están como recordatorio.
 
-> Instalamos django en nuestra maquina o en nuestro entorno de python
+> Instalamos django en nuestra máquina o en nuestro entorno de python
 ```sh
 pip install django
 ```
@@ -20,7 +20,7 @@ pip show Django
 django-admin --version
 ```
 
-## :elephant: <samp>Instalando PostgreSQL</samp>
+## :elephant: <samp>Installing PostgreSQL</samp>
 Ahora, especificamente para el proyecto de `Destinos turísticos` se está usando el sistema de gestión de base de datos relacionales PostgreSQL, por lo tanto es necesario instalar este programa para poder probar dicho proyecto.
 
 > Instalar PostgreSQL en Linux con el gestor de paquetes `pacman`
@@ -28,11 +28,11 @@ Ahora, especificamente para el proyecto de `Destinos turísticos` se está usand
 sudo pacman -S postgresql
 ```
 
-En distribuciones Debian como ubuntu, el `cluster` de la base de datos se inicia manualmente, sin embargo en distribuciones como Arch se tiene que hacer manualmente.
+En distribuciones Debian como ubuntu, el `cluster` de la base de datos se inicia automaticamente. Sin embargo, las distribuciones como Arch tienen que hacerlo manualmente.
 
 > Cambiamos al usuario `postgres` y usamos el comando `initdb`
 ```sh
-su -i -u postgres
+sudo -iu postgres # sudo --login --user=postgres
 initdb --locale=C.UTF-8 --encoding=UTF8 -D /var/lib/postgres/data
 ```
 Ahora podemos aprovechar configurar una constraseña para el superusuario de PostgreSQL, por defecto, como hemos visto, el superusuario es `postgres`.
